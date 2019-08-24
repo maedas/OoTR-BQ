@@ -1643,6 +1643,14 @@ def patch_rom(spoiler:Spoiler, world:World, rom:Rom):
         rom.write_bytes(0xE2ADB6, [0x70, 0x57])
         buildBossRewardHints(world, messages)
 
+    if world.tokensanity == 'off':
+        # Change the GS token pickup message to fade out after 2 seconds (40 frames)
+        update_message_by_id(messages, 0x00B4, bytearray(get_message_by_id(messages, 0x00B4).raw_text)[:-1] + b'\x0E\x28')
+        # Prevent the GS token actor from freezing the player and waiting for the textbox to be closed 
+        rom.write_int32s(0xEC68C0, [0x00000000, 0x00000000])
+        rom.write_int32s(0xEC69B0, [0x00000000, 0x00000000])
+        rom.write_int32(0xEC6A10, 0x34020002) # li v0, 2
+
     # update happy mask shop to use new SOLD OUT text id
     rom.write_int16(shop_item_file.start + 0x1726, shop_items[0x26].description_message)
 

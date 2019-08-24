@@ -152,6 +152,7 @@
     addiu   at, r0, 0x8383 ; Make branch impossible
 
 ; Change Skulltula Token to give a different item
+; Mutated by Patches.py
 ; Replaces
 ;    move    a0, s1
 ;    jal     0x0006FDCC        ; call ex_06fdcc(ctx, 0x0071); VROM: 0xAE5D2C
@@ -162,7 +163,7 @@
 ;    li      a1, 0xB4          ; a1 = 0x00b4 ("You destoryed a Gold Skulltula...")
 ;    move    a2, zero
 ;    jal     0x000DCE14        ; call ex_0dce14(ctx, 0x00b4, 0)
-;    sh      t4, 0x110 (t5)    ; *(t5 + 0x110) = 0x000a
+;    sh      t4, 0x110 (t5)    ; *(t5 + 0x110) = 0x000a (Freeze the player actor for 10 frames)
 .orga 0xEC68BC
 .area 0x28, 0
     lw      t5, 0x2C (sp)                ; original code
